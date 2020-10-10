@@ -5,6 +5,7 @@ import { CheckboxStyles } from './components/checkbox-styles/checkbox-styles.com
 import { CheckboxDeliveryTime } from './components/checkbox-delivery-time/checkbox-delivery-time.component';
 import './App.css';
 
+const DEFAULT_MAX_TIME_DELIVERY = 111;
 class App extends React.Component {
   constructor() {
     super();
@@ -15,7 +16,6 @@ class App extends React.Component {
       searchByFurnitureStyles: [],
       deliveryTime: ['1 week', '2 weeks', '1 month', '2 months'],
       searchByTimeDelivery: [],
-      displayedProduct: [],
     };
   }
 
@@ -42,7 +42,9 @@ class App extends React.Component {
       searchByTimeDelivery,
     } = this.state;
     let styles = searchByFurnitureStyles;
-    let convertedTimeDelivery = searchByTimeDelivery.length ? 0 : 111;
+    let convertedTimeDelivery = searchByTimeDelivery.length
+      ? 0
+      : DEFAULT_MAX_TIME_DELIVERY;
     searchByTimeDelivery.forEach((deliveryTime) => {
       if (deliveryTime === '1 week') {
         convertedTimeDelivery += 7;
@@ -65,25 +67,25 @@ class App extends React.Component {
 
     return displayedProduct;
   };
-  handleChangeCheckboxStyle = (e) => {
-    let currentStyles = this.state.searchByFurnitureStyles;
+  handleCheckbox = (e, state) => {
+    let currentCheckbox = state;
     if (e.target.checked) {
-      currentStyles.push(e.target.value);
+      currentCheckbox.push(e.target.value);
     } else {
-      currentStyles = currentStyles.filter((style) => style !== e.target.value);
-    }
-    this.setState({ searchByFurnitureStyles: currentStyles });
-  };
-  handleChangeCheckboxDeliveryTime = (e) => {
-    let currentDeliveryTime = this.state.searchByTimeDelivery;
-    if (e.target.checked) {
-      currentDeliveryTime.push(e.target.value);
-    } else {
-      currentDeliveryTime = currentDeliveryTime.filter(
-        (deliveryTime) => deliveryTime !== e.target.value
+      currentCheckbox = currentCheckbox.filter(
+        (item) => item !== e.target.value
       );
     }
-    this.setState({ searchByTimeDelivery: currentDeliveryTime });
+    return currentCheckbox;
+  };
+  handleChangeCheckboxStyle = (e) => {
+    const newState = this.handleCheckbox(e, this.state.searchByFurnitureStyles);
+    this.setState({ searchByFurnitureStyles: newState });
+  };
+
+  handleChangeCheckboxDeliveryTime = (e) => {
+    const newState = this.handleCheckbox(e, this.state.searchByTimeDelivery);
+    this.setState({ searchByTimeDelivery: newState });
   };
 
   render() {

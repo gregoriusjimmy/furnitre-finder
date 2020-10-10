@@ -1,6 +1,6 @@
 import React from 'react';
 import './card.styles.scss';
-
+import { formatMoney } from '../../utils/utils';
 export const Card = ({ product }) => {
   const { name, price, description, delivery_time, furniture_style } = product;
 
@@ -8,7 +8,7 @@ export const Card = ({ product }) => {
     <div className='card'>
       <div className='header'>
         <h3 className='name'>{name}</h3>
-        <p className='price'>{price}</p>
+        <p className='price'>{formatMoney(price)}</p>
       </div>
       <p className='description'>{description}</p>
       <ul className='furniture-style'>
