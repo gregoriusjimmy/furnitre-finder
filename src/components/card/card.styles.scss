@@ -1,0 +1,21 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 25px;
+  cursor: pointer;
+  .header {
+    display: flex;
+    .name {
+    }
+    .price {
+    }
+  }
+  .description {
+  }
+  .category {
+  }
+  .time {
+  }
+}
